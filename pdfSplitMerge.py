@@ -19,6 +19,7 @@ def split(outputDir, InputFilePath):
 def merge(inputDir, outputFilePath):
     pdfMerger = PdfFileMerger()
     pdfList = findAllPdfFiles(inputDir)
+    pdfList.sort()
     for path in pdfList:
         pdfMerger.append(PdfFileReader(path, 'rb'))
     pdfMerger.write(outputFilePath)
