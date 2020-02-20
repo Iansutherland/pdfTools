@@ -2,6 +2,7 @@
 
 import argparse #https://docs.python.org/2/howto/argparse.html
 import os #https://docs.python.org/2/library/os.html
+import re #https://docs.python.org/2/library/re.html
 from PyPDF2 import PdfFileReader, PdfFileWriter, PdfFileMerger #https://pythonhosted.org/PyPDF2/
 
 def split(outputDir, InputFilePath):
@@ -19,7 +20,7 @@ def split(outputDir, InputFilePath):
 def merge(inputDir, outputFilePath):
     pdfMerger = PdfFileMerger()
     pdfList = findAllPdfFiles(inputDir)
-    pdfList.sort()
+    pdfList = sorted_nicely(pdfList)
     for path in pdfList:
         pdfMerger.append(PdfFileReader(path, 'rb'))
     pdfMerger.write(outputFilePath)
@@ -30,6 +31,13 @@ def findAllPdfFiles(inputDir):
         if file.endswith(".pdf"):
             pdfList.append(f'{inputDir}{file}')
     return pdfList
+
+#https://stackoverflow.com/questions/2669059/how-to-sort-alpha-numeric-set-in-python
+def sorted_nicely( l ): 
+    """ Sort the given iterable in the way that humans expect.""" 
+    convert = lambda text: int(text) if text.isdigit() else text 
+    alphanum_key = lambda key: [ convert(c) for c in re.split('([0-9]+)', key) ] 
+    return sorted(l, key = alphanum_key)
 
 #returns a parser after setting up valid arguments
 def parseCommandLine():
