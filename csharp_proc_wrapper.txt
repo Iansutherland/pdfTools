@@ -1,0 +1,34 @@
+        private static void MergePdfs(string outputFilePath, string InputDir)
+        {
+            string ExecutablePath = @"C:\Development\Python\pdf_test\pdfSplitMerge\dist\pdfSplitMerge.exe";
+            string arguments = $"-m \"{outputFilePath}\" \"{InputDir}\"";
+
+            Process proc = new Process();
+            proc.StartInfo.UseShellExecute = false;
+            proc.StartInfo.RedirectStandardError = true;
+            proc.StartInfo.FileName = ExecutablePath;
+            proc.StartInfo.Arguments = arguments;
+            proc.Start();
+            string output = proc.StandardError.ReadToEnd();
+            proc.WaitForExit();
+
+            Console.WriteLine(output);
+            proc.Close();
+        }
+
+        private static void SplitPdfs(string inputFilePath, string outputDir)
+        {
+            string ExecutablePath = @"C:\Development\Python\pdf_test\pdfSplitMerge\dist\pdfSplitMerge.exe";
+            string arguments = $"-s \"{inputFilePath}\" \"{outputDir}\"";
+
+            Process proc = new Process();
+            proc.StartInfo.UseShellExecute = false;
+            proc.StartInfo.RedirectStandardError = true;
+            proc.StartInfo.FileName = ExecutablePath;
+            proc.StartInfo.Arguments = arguments;
+            proc.Start();
+            string output = proc.StandardError.ReadToEnd();
+            proc.WaitForExit();
+
+            Console.WriteLine(output);
+        }
